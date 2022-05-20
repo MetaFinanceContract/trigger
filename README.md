@@ -1,12 +1,21 @@
 # trigger
-[![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/f02481ec-d233-43b4-88c7-6669d8c3049d/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://badgen.net/https/api.mythx.io/v1/projects/f02481ec-d233-43b4-88c7-6669d8c3049d/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)
+[![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/f02481ec-d233-43b4-88c7-6669d8c3049d/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://docs.mythx.io/dashboard/github-badges)
 
-Meta Finance trigger pool
+Meta Finance trigger pool contract
 
-# Solidity version
+
+#  license
 
 ```
-0.8.6
+MIT
+```
+
+# compilers
+
+```
+version: "0.8.6"
+enabled: true
+runs: 200
 ```
 
 # dependencies
@@ -24,3 +33,8 @@ slither:"0.8.3"
 npm i
 ```
 
+# authors
+
+```
+MetaFinanceContract <https://github.com/MetaFinanceContract>
+```
