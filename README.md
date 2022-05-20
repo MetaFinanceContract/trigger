@@ -3,14 +3,19 @@
 
 Meta Finance trigger pool contract
 
+# MythX Project ID
 
-#  license
+```
+f02481ec-d233-43b4-88c7-6669d8c3049d
+```
+
+# License
 
 ```
 MIT
 ```
 
-# compilers
+# Compilers
 
 ```
 version: "0.8.6"
@@ -18,7 +23,7 @@ enabled: true
 runs: 200
 ```
 
-# dependencies
+# Dependencies
 
 ```
 @openzeppelin/contracts: "^4.5.0"
@@ -33,8 +38,9 @@ slither:"0.8.3"
 npm i
 ```
 
-# authors
+# Authors
 
 ```
 MetaFinanceContract <https://github.com/MetaFinanceContract>
+LongYan <https://github.com/YanLong-111>
 ```
