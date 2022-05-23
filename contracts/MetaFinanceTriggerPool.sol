@@ -164,15 +164,15 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function updateMiningPool() private nonReentrant {
         cakeTokenBalanceOf = cakeTokenAddress.balanceOf(address(this));
-        if (totalPledgeValue != 0) {
+        if (totalPledgeValue > proportion) {
             uint256 length = smartChefArray.length;
+            address[] memory path = new address[](3);
+            path[1] = address(wbnbTokenAddress);
+            path[2] = address(cakeTokenAddress);
             for (uint256 i = 0; i < length; ++i) {
                 uint256 rewardTokenBalanceOf = IERC20Metadata(smartChefArray[i].rewardToken()).balanceOf(address(this));
                 smartChefArray[i].withdraw(storageQuantity[smartChefArray[i]]);
-                address[] memory path = new address[](3);
                 path[0] = smartChefArray[i].rewardToken();
-                path[1] = address(wbnbTokenAddress);
-                path[2] = address(cakeTokenAddress);
                 swapTokensForCake(IERC20Metadata(path[0]), path, rewardTokenBalanceOf);
             }
 
@@ -193,7 +193,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function reinvest() private nonReentrant {
         totalPledgeValue = (cakeTokenAddress.balanceOf(address(this))).sub(cakeTokenBalanceOf);
-        if (totalPledgeValue > 1000) {
+        if (totalPledgeValue > proportion) {
             uint256 _frontProportionAmount = 0;
             uint256 _arrayUpperLimit = smartChefArray.length;
             for (uint256 i = 0; i < _arrayUpperLimit; ++i) {
@@ -278,6 +278,16 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     }
 
     /**
+    * @dev Set new external contract address
+    * @param newMetaFinanceClubInfo_ New MetaFinanceClubInfo contract address
+    * @param newMetaFinanceIssuePoolAddress_ New MetaFinanceIssuePoolAddress_ contract address
+    */
+    function setExternalContract(address newMetaFinanceClubInfo_, address newMetaFinanceIssuePoolAddress_) external nonReentrant onlyRole(DATA_ADMINISTRATOR) {
+        metaFinanceClubInfo = IMetaFinanceClubInfo(newMetaFinanceClubInfo_);
+        metaFinanceIssuePoolAddress = IMetaFinanceIssuePool(newMetaFinanceIssuePoolAddress_);
+    }
+
+    /**
     * @dev Withdraw staked tokens without caring about rewards rewards
     * @notice Use cautiously and exit with guaranteed principal!!!
     * @dev Needs to be for emergency.
@@ -306,7 +316,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     }
 
     /**
-    * @dev claim Tokens
+    * @dev claim Tokens to treasury
     */
     function claimTokenToTreasury() external beforeStaking nonReentrant onlyRole(MONEY_ADMINISTRATOR) {
         cakeTokenAddress.safeTransfer(metaFinanceClubInfo.treasuryAddress(), exchequerAmount);

@@ -164,6 +164,14 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     }
 
     /**
+    * @dev Set new club address
+    * @param newClubAddress_ New club address
+    */
+    function setClubAddress(address newClubAddress_) external onlyRole(DATA_ADMINISTRATOR) {
+        metaFinanceClubInfo = IMetaFinanceClubInfo(newClubAddress_);
+    }
+
+    /**
     * @dev Modify production time
     * @param newLockDays_ New lock time
     */
