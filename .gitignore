@@ -1,0 +1,12 @@
+node_modules
+.idea
+#Hardhat files
+cache
+slither
+bin
+artifacts
+typechain
+other
+hardhat.config.ts
+.DS_Store
+.vscode
