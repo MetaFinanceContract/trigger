@@ -1087,11 +1087,11 @@
 			]
 		},
 		"contracts/MetaFinanceIssuePool.sol": {
-			"keccak256": "0x92e83707b93fb88066222950b77a0248ea3a14b988f04a327398fa760e981233",
+			"keccak256": "0xce0d298459458e4a76cd81f6247c4c014d90a5f08de0029762c5b11d63e9cb38",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://57bbf7bb0cd3b951ce315048b08aebd23a8dbf2ae9299ff70405f2f77642d7cf",
-				"dweb:/ipfs/QmaALUq73KBM459BdwUBfEVENcSRrKE3gy2TCbgd429YQE"
+				"bzz-raw://f23fefe909dd5176ef979ce507d036f6dfb4e6c5aff6148f2e1955f274bd775d",
+				"dweb:/ipfs/QmbJpzC3bEfeZZ2Be2be7UKzQLaJCzFo9PjU9Ap2kHT2Xf"
 			]
 		},
 		"contracts/events/MfiIssueEvents.sol": {
