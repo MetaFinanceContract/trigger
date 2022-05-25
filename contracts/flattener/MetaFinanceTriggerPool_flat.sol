@@ -336,14 +336,14 @@ abstract contract AccessControl is Context, IAccessControl, ERC165 {
     function _checkRole(bytes32 role, address account) internal view virtual {
         if (!hasRole(role, account)) {
             revert(
-                string(
-                    abi.encodePacked(
-                        "AccessControl: account ",
-                        Strings.toHexString(uint160(account), 20),
-                        " is missing role ",
-                        Strings.toHexString(uint256(role), 32)
-                    )
+            string(
+                abi.encodePacked(
+                    "AccessControl: account ",
+                    Strings.toHexString(uint160(account), 20),
+                    " is missing role ",
+                    Strings.toHexString(uint256(role), 32)
                 )
+            )
             );
         }
     }
@@ -492,7 +492,7 @@ abstract contract MfiAccessControl is AccessControl {
 
 
 
-contract MfiEvents {
+contract MfiTriggerEvents {
     /*
      * @dev User pledge event
      * @param _userAddress User address
@@ -526,168 +526,17 @@ contract MfiEvents {
 
 // File: contracts/interfaces/IMfiTriggerInterfaces.sol
 
-
-
 /**
- * @title PancakeRouter01 contract interface
+ * @title PancakeRouter02 contract interface
  */
-interface IPancakeRouter01 {
-    function factory() external pure returns (address);
-
-    function WETH() external pure returns (address);
-
-    function addLiquidity(
-        address tokenA,
-        address tokenB,
-        uint256 amountADesired,
-        uint256 amountBDesired,
-        uint256 amountAMin,
-        uint256 amountBMin,
-        address to,
-        uint256 deadline
-    )
-    external
-    returns (
-        uint256 amountA,
-        uint256 amountB,
-        uint256 liquidity
-    );
-
-    function addLiquidityETH(
-        address token,
-        uint256 amountTokenDesired,
-        uint256 amountTokenMin,
-        uint256 amountETHMin,
-        address to,
-        uint256 deadline
-    )
-    external
-    payable
-    returns (
-        uint256 amountToken,
-        uint256 amountETH,
-        uint256 liquidity
-    );
-
-    function removeLiquidity(
-        address tokenA,
-        address tokenB,
-        uint256 liquidity,
-        uint256 amountAMin,
-        uint256 amountBMin,
-        address to,
-        uint256 deadline
-    ) external returns (uint256 amountA, uint256 amountB);
-
-    function removeLiquidityETH(
-        address token,
-        uint256 liquidity,
-        uint256 amountTokenMin,
-        uint256 amountETHMin,
-        address to,
-        uint256 deadline
-    ) external returns (uint256 amountToken, uint256 amountETH);
-
-    function removeLiquidityWithPermit(
-        address tokenA,
-        address tokenB,
-        uint256 liquidity,
-        uint256 amountAMin,
-        uint256 amountBMin,
-        address to,
-        uint256 deadline,
-        bool approveMax,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external returns (uint256 amountA, uint256 amountB);
-
-    function removeLiquidityETHWithPermit(
-        address token,
-        uint256 liquidity,
-        uint256 amountTokenMin,
-        uint256 amountETHMin,
-        address to,
-        uint256 deadline,
-        bool approveMax,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external returns (uint256 amountToken, uint256 amountETH);
-
-    function swapExactTokensForTokens(
+interface IPancakeRouter02 {
+    function swapExactTokensForTokensSupportingFeeOnTransferTokens(
         uint256 amountIn,
         uint256 amountOutMin,
         address[] calldata path,
         address to,
         uint256 deadline
-    ) external returns (uint256[] memory amounts);
-
-    function swapTokensForExactTokens(
-        uint256 amountOut,
-        uint256 amountInMax,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external returns (uint256[] memory amounts);
-
-    function swapExactETHForTokens(
-        uint256 amountOutMin,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external payable returns (uint256[] memory amounts);
-
-    function swapTokensForExactETH(
-        uint256 amountOut,
-        uint256 amountInMax,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external returns (uint256[] memory amounts);
-
-    function swapExactTokensForETH(
-        uint256 amountIn,
-        uint256 amountOutMin,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external returns (uint256[] memory amounts);
-
-    function swapETHForExactTokens(
-        uint256 amountOut,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external payable returns (uint256[] memory amounts);
-
-    function quote(
-        uint256 amountA,
-        uint256 reserveA,
-        uint256 reserveB
-    ) external pure returns (uint256 amountB);
-
-    function getAmountOut(
-        uint256 amountIn,
-        uint256 reserveIn,
-        uint256 reserveOut
-    ) external pure returns (uint256 amountOut);
-
-    function getAmountIn(
-        uint256 amountOut,
-        uint256 reserveIn,
-        uint256 reserveOut
-    ) external pure returns (uint256 amountIn);
-
-    function getAmountsOut(uint256 amountIn, address[] calldata path)
-    external
-    view
-    returns (uint256[] memory amounts);
-
-    function getAmountsIn(uint256 amountOut, address[] calldata path)
-    external
-    view
-    returns (uint256[] memory amounts);
+    ) external;
 }
 
 /**
@@ -789,55 +638,6 @@ interface ISmartChefInitializable {
     function rewardToken() external view returns (address);
 }
 
-/**
- * @title PancakeRouter02 and PancakeRouter01 contract interface
- */
-interface IPancakeRouter02 is IPancakeRouter01 {
-    function removeLiquidityETHSupportingFeeOnTransferTokens(
-        address token,
-        uint256 liquidity,
-        uint256 amountTokenMin,
-        uint256 amountETHMin,
-        address to,
-        uint256 deadline
-    ) external returns (uint256 amountETH);
-
-    function removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
-        address token,
-        uint256 liquidity,
-        uint256 amountTokenMin,
-        uint256 amountETHMin,
-        address to,
-        uint256 deadline,
-        bool approveMax,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external returns (uint256 amountETH);
-
-    function swapExactTokensForTokensSupportingFeeOnTransferTokens(
-        uint256 amountIn,
-        uint256 amountOutMin,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external;
-
-    function swapExactETHForTokensSupportingFeeOnTransferTokens(
-        uint256 amountOutMin,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external payable;
-
-    function swapExactTokensForETHSupportingFeeOnTransferTokens(
-        uint256 amountIn,
-        uint256 amountOutMin,
-        address[] calldata path,
-        address to,
-        uint256 deadline
-    ) external;
-}
 
 // File: @openzeppelin/contracts/utils/math/Math.sol
 
@@ -907,11 +707,11 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            uint256 c = a + b;
-            if (c < a) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        uint256 c = a + b;
+        if (c < a) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -920,10 +720,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b > a) return (false, 0);
-            return (true, a - b);
-        }
+    unchecked {
+        if (b > a) return (false, 0);
+        return (true, a - b);
+    }
     }
 
     /**
@@ -932,15 +732,15 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-            // benefit is lost if 'b' is also tested.
-            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-            if (a == 0) return (true, 0);
-            uint256 c = a * b;
-            if (c / a != b) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+        if (a == 0) return (true, 0);
+        uint256 c = a * b;
+        if (c / a != b) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -949,10 +749,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a / b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a / b);
+    }
     }
 
     /**
@@ -961,10 +761,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a % b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a % b);
+    }
     }
 
     /**
@@ -1057,10 +857,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b <= a, errorMessage);
-            return a - b;
-        }
+    unchecked {
+        require(b <= a, errorMessage);
+        return a - b;
+    }
     }
 
     /**
@@ -1080,10 +880,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a / b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a / b;
+    }
     }
 
     /**
@@ -1106,10 +906,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a % b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a % b;
+    }
     }
 }
 
@@ -1260,7 +1060,7 @@ library Address {
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success,) = recipient.call{value : amount}("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -1334,7 +1134,7 @@ library Address {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
-        (bool success, bytes memory returndata) = target.call{value: value}(data);
+        (bool success, bytes memory returndata) = target.call{value : value}(data);
         return verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -1493,12 +1293,12 @@ library SafeERC20 {
         address spender,
         uint256 value
     ) internal {
-        unchecked {
-            uint256 oldAllowance = token.allowance(address(this), spender);
-            require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
-            uint256 newAllowance = oldAllowance - value;
-            _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
-        }
+    unchecked {
+        uint256 oldAllowance = token.allowance(address(this), spender);
+        require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
+        uint256 newAllowance = oldAllowance - value;
+        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+    }
     }
 
     /**
@@ -1611,7 +1411,7 @@ library AddressUpgradeable {
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success,) = recipient.call{value : amount}("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -1685,7 +1485,7 @@ library AddressUpgradeable {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
-        (bool success, bytes memory returndata) = target.call{value: value}(data);
+        (bool success, bytes memory returndata) = target.call{value : value}(data);
         return verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -2006,13 +1806,16 @@ contract MfiTriggerStorages {
 
 }
 
-// File: contracts/MetaFinanceTriggerPool.sol
+// File: contracts/MetaFinanceTriggerPoolTwo.sol
 
 
 
 
 
-contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessControl, ReentrancyGuardUpgradeable {
+/**
+* @notice MfiTriggerEvents, MfiTriggerStorages, MfiAccessControl, ReentrancyGuardUpgradeable
+*/
+contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAccessControl, ReentrancyGuardUpgradeable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20Metadata;
 
@@ -2071,6 +1874,7 @@ contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessContr
     */
     function userDeposit(uint256 amount_) external beforeStaking nonReentrant {
         require(metaFinanceClubInfo.userClub(_msgSender()) != address(0), "MFTP:E0");
+        require(smartChefArray.length > 0, "MFTP:E5");
         require(amount_ >= 10 ** 18, "MFTP:E1");
 
         cakeTokenAddress.safeTransferFrom(_msgSender(), address(this), amount_);
@@ -2168,16 +1972,18 @@ contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessContr
     */
     function updateMiningPool() private nonReentrant {
         cakeTokenBalanceOf = cakeTokenAddress.balanceOf(address(this));
-        if (totalPledgeValue != 0) {
+        if (totalPledgeValue > proportion) {
             uint256 length = smartChefArray.length;
+            address[] memory path = new address[](3);
+            path[1] = address(wbnbTokenAddress);
+            path[2] = address(cakeTokenAddress);
             for (uint256 i = 0; i < length; ++i) {
                 uint256 rewardTokenBalanceOf = IERC20Metadata(smartChefArray[i].rewardToken()).balanceOf(address(this));
-                smartChefArray[i].withdraw(storageQuantity[smartChefArray[i]]);
-                address[] memory path = new address[](3);
-                path[0] = smartChefArray[i].rewardToken();
-                path[1] = address(wbnbTokenAddress);
-                path[2] = address(cakeTokenAddress);
-                swapTokensForCake(IERC20Metadata(path[0]), path, rewardTokenBalanceOf);
+                if (storageQuantity[smartChefArray[i]] != 0) {
+                    smartChefArray[i].withdraw(storageQuantity[smartChefArray[i]]);
+                    path[0] = smartChefArray[i].rewardToken();
+                    swapTokensForCake(IERC20Metadata(path[0]), path, rewardTokenBalanceOf);
+                }
             }
 
             uint256 haveAward = ((cakeTokenAddress.balanceOf(address(this))).sub(totalPledgeValue)).sub(cakeTokenBalanceOf);
@@ -2197,7 +2003,7 @@ contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessContr
     */
     function reinvest() private nonReentrant {
         totalPledgeValue = (cakeTokenAddress.balanceOf(address(this))).sub(cakeTokenBalanceOf);
-        if (totalPledgeValue > 1000) {
+        if (totalPledgeValue > proportion) {
             uint256 _frontProportionAmount = 0;
             uint256 _arrayUpperLimit = smartChefArray.length;
             for (uint256 i = 0; i < _arrayUpperLimit; ++i) {
@@ -2228,6 +2034,7 @@ contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessContr
     ) private {
         uint256 tokenAmount = tokenAddress.balanceOf(address(this)).sub(oldBalanceOf);
 
+        if (tokenAmount < proportion) return;
         tokenAddress.safeApprove(address(pancakeRouterAddress), 0);
         tokenAddress.safeApprove(address(pancakeRouterAddress), tokenAmount);
 
@@ -2282,16 +2089,26 @@ contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessContr
     }
 
     /**
+    * @dev Set new external contract address
+    * @param newMetaFinanceClubInfo_ New MetaFinanceClubInfo contract address
+    * @param newMetaFinanceIssuePoolAddress_ New MetaFinanceIssuePoolAddress_ contract address
+    */
+    function setExternalContract(address newMetaFinanceClubInfo_, address newMetaFinanceIssuePoolAddress_) external nonReentrant onlyRole(DATA_ADMINISTRATOR) {
+        metaFinanceClubInfo = IMetaFinanceClubInfo(newMetaFinanceClubInfo_);
+        metaFinanceIssuePoolAddress = IMetaFinanceIssuePool(newMetaFinanceIssuePoolAddress_);
+    }
+
+    /**
     * @dev Withdraw staked tokens without caring about rewards rewards
     * @notice Use cautiously and exit with guaranteed principal!!!
+    * @param smartChef_ Pool address
     * @dev Needs to be for emergency.
     */
-    function projectPartyEmergencyWithdraw() external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
+    function projectPartyEmergencyWithdraw(ISmartChefInitializable smartChef_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
         if (totalPledgeAmount != 0) {
-            uint256 length = smartChefArray.length;
-            for (uint256 i = 0; i < length; ++i) {
-                smartChefArray[i].emergencyWithdraw();
-            }
+            smartChef_.emergencyWithdraw();
+            totalPledgeValue = totalPledgeValue.sub(storageQuantity[smartChef_]);
+            storageQuantity[smartChef_] = 0;
         }
     }
 
@@ -2310,7 +2127,7 @@ contract MetaFinanceTriggerPool is MfiEvents, MfiTriggerStorages, MfiAccessContr
     }
 
     /**
-    * @dev claim Tokens
+    * @dev claim Tokens to treasury
     */
     function claimTokenToTreasury() external beforeStaking nonReentrant onlyRole(MONEY_ADMINISTRATOR) {
         cakeTokenAddress.safeTransfer(metaFinanceClubInfo.treasuryAddress(), exchequerAmount);
