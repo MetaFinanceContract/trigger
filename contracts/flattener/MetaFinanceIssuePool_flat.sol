@@ -530,7 +530,7 @@ abstract contract MfiAccessControl is AccessControl {
 
 }
 
-// File: contracts/interfaces/MfiIssueInterfaces.sol
+// File: contracts/interfaces/IMfiIssueInterfaces.sol
 
 
 
