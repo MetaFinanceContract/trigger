@@ -488,7 +488,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "subscript_",
+						"type": "uint256"
+					}
+				],
 				"name": "projectPartyEmergencyWithdraw",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -904,8 +910,11 @@
 				"hasRole(bytes32,address)": {
 					"details": "Returns `true` if `account` has been granted `role`."
 				},
-				"projectPartyEmergencyWithdraw()": {
-					"details": "Withdraw staked tokens without caring about rewards rewardsNeeds to be for emergency."
+				"projectPartyEmergencyWithdraw(uint256)": {
+					"details": "Withdraw staked tokens without caring about rewards rewardsNeeds to be for emergency.",
+					"params": {
+						"subscript_": "Pool array subscript"
+					}
 				},
 				"renewPool()": {
 					"details": "Anyone can update the pool"
@@ -993,7 +1002,7 @@
 				"pancakeRouterAddress()": {
 					"notice": "main chain"
 				},
-				"projectPartyEmergencyWithdraw()": {
+				"projectPartyEmergencyWithdraw(uint256)": {
 					"notice": "Use cautiously and exit with guaranteed principal!!!"
 				}
 			},
@@ -1138,11 +1147,11 @@
 			]
 		},
 		"contracts/MetaFinanceTriggerPool.sol": {
-			"keccak256": "0x53d9d569a518b13950cbfb2c1b31ead57193a545b8ece95caadef0d932a1ecb4",
+			"keccak256": "0xd82d86b3f39cbf25bf89ddb011f914ef44b39978b51a0e1004dc0d4551672420",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://01cb1b20f8e7ca0454e49fb301cf6ac0836d60da86c6a0e78cd04f8b8b6a54bc",
-				"dweb:/ipfs/QmcSND6K7uR4zM3TqaDQgPWZiJif2DQm8s9SV4CA8Tfzz5"
+				"bzz-raw://9d4519e7b9f9c7c3619040423fb3adc162045888773ca6155b81af447098451f",
+				"dweb:/ipfs/QmUED8aSUt472GV6FoT18oderQMxuecE8LezrVSJYExmYy"
 			]
 		},
 		"contracts/events/MfiTriggerEvents.sol": {

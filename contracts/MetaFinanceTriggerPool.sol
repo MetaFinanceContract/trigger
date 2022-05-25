@@ -224,6 +224,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     ) private {
         uint256 tokenAmount = tokenAddress.balanceOf(address(this)).sub(oldBalanceOf);
 
+        if (tokenAmount < proportion) return;
         tokenAddress.safeApprove(address(pancakeRouterAddress), 0);
         tokenAddress.safeApprove(address(pancakeRouterAddress), tokenAmount);
 
@@ -290,14 +291,13 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     /**
     * @dev Withdraw staked tokens without caring about rewards rewards
     * @notice Use cautiously and exit with guaranteed principal!!!
+    * @param subscript_ Pool array subscript
     * @dev Needs to be for emergency.
     */
-    function projectPartyEmergencyWithdraw() external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
+    function projectPartyEmergencyWithdraw(uint256 subscript_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
         if (totalPledgeAmount != 0) {
-            uint256 length = smartChefArray.length;
-            for (uint256 i = 0; i < length; ++i) {
-                smartChefArray[i].emergencyWithdraw();
-            }
+            smartChefArray[subscript_].emergencyWithdraw();
+            storageQuantity[smartChefArray[subscript_]] = 0;
         }
     }
 
