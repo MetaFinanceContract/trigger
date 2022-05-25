@@ -67,6 +67,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function userDeposit(uint256 amount_) external beforeStaking nonReentrant {
         require(metaFinanceClubInfo.userClub(_msgSender()) != address(0), "MFTP:E0");
+        require(smartChefArray.length > 0, "MFTP:E5");
         require(amount_ >= 10 ** 18, "MFTP:E1");
 
         cakeTokenAddress.safeTransferFrom(_msgSender(), address(this), amount_);
@@ -171,9 +172,11 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
             path[2] = address(cakeTokenAddress);
             for (uint256 i = 0; i < length; ++i) {
                 uint256 rewardTokenBalanceOf = IERC20Metadata(smartChefArray[i].rewardToken()).balanceOf(address(this));
-                smartChefArray[i].withdraw(storageQuantity[smartChefArray[i]]);
-                path[0] = smartChefArray[i].rewardToken();
-                swapTokensForCake(IERC20Metadata(path[0]), path, rewardTokenBalanceOf);
+                if (storageQuantity[smartChefArray[i]] != 0) {
+                    smartChefArray[i].withdraw(storageQuantity[smartChefArray[i]]);
+                    path[0] = smartChefArray[i].rewardToken();
+                    swapTokensForCake(IERC20Metadata(path[0]), path, rewardTokenBalanceOf);
+                }
             }
 
             uint256 haveAward = ((cakeTokenAddress.balanceOf(address(this))).sub(totalPledgeValue)).sub(cakeTokenBalanceOf);
@@ -291,13 +294,14 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     /**
     * @dev Withdraw staked tokens without caring about rewards rewards
     * @notice Use cautiously and exit with guaranteed principal!!!
-    * @param subscript_ Pool array subscript
+    * @param smartChef_ Pool address
     * @dev Needs to be for emergency.
     */
-    function projectPartyEmergencyWithdraw(uint256 subscript_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
+    function projectPartyEmergencyWithdraw(ISmartChefInitializable smartChef_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
         if (totalPledgeAmount != 0) {
-            smartChefArray[subscript_].emergencyWithdraw();
-            storageQuantity[smartChefArray[subscript_]] = 0;
+            smartChef_.emergencyWithdraw();
+            totalPledgeValue = totalPledgeValue.sub(storageQuantity[smartChef_]);
+            storageQuantity[smartChef_] = 0;
         }
     }
 
