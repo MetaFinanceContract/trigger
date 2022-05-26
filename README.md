@@ -30,7 +30,7 @@ echidna:"2.0.1"
 ```
 
 # Permission cracking
-![image](https://user-images.githubusercontent.com/61084497/170470727-5b4c0f34-f7ba-43d6-89c8-257823580c36.png)
+![image](https://user-images.githubusercontent.com/61084497/170479227-3449eb08-52f1-425e-a0fc-cd45a477f448.png)
 
 # Install Dependencies
 
