@@ -1,6 +1,6 @@
 # trigger
 [![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/f02481ec-d233-43b4-88c7-6669d8c3049d/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://github.com/MetaFinanceContract/trigger/blob/main/codeReview/1ac875d73548796f68b5d16f.pdf)
-https://raw.githubusercontent.com/crytic/echidna/master/echidna.png
+<a href="https://raw.githubusercontent.com/crytic/echidna/master/echidna.png"><img src="https://raw.githubusercontent.com/crytic/echidna/master/echidna.png" width="75"/></a>
 
 Meta Finance trigger pool contract and other related contracts
 
