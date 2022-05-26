@@ -1,5 +1,6 @@
-# trigger
+# trigger <a href="https://github.com/MetaFinanceContract/trigger/blob/main/contracts/echidna/AttemptPermissionControlCrack.sol"><img src="https://raw.githubusercontent.com/crytic/echidna/master/echidna.png" width="95"/></a>
 [![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/f02481ec-d233-43b4-88c7-6669d8c3049d/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://github.com/MetaFinanceContract/trigger/blob/main/codeReview/1ac875d73548796f68b5d16f.pdf)
+
 
 Meta Finance trigger pool contract and other related contracts
 
@@ -8,7 +9,6 @@ Meta Finance trigger pool contract and other related contracts
 ```
 MIT
 ```
-![image](https://user-images.githubusercontent.com/61084497/170469585-1507e52b-82f6-4520-821c-d825030d65a7.png)
 
 # Compilers
 
@@ -23,9 +23,14 @@ runs: 200
 ```
 @openzeppelin/contracts: "^4.5.0"
 @openzeppelin/contracts-upgradeable: "^4.6.0"
+trffle:""
 truffle-flattener: "^1.6.0"
 slither:"0.8.3"
+echidna:"2.0.1"
 ```
+
+# Permission cracking
+![image](https://user-images.githubusercontent.com/61084497/170479227-3449eb08-52f1-425e-a0fc-cd45a477f448.png)
 
 # Install Dependencies
 
