@@ -23,7 +23,7 @@ runs: 200
 ```
 @openzeppelin/contracts: "^4.5.0"
 @openzeppelin/contracts-upgradeable: "^4.6.0"
-trffle:""
+trffle:"1.0.0"
 truffle-flattener: "^1.6.0"
 slither:"0.8.3"
 echidna:"2.0.1"
