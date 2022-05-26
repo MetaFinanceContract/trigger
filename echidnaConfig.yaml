@@ -1,0 +1,2 @@
+#testLimit is the number of test sequences to run
+testLimit: 50000
