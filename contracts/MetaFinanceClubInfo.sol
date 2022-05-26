@@ -102,4 +102,5 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
     function setTreasuryAddress(address newTreasury_) external onlyRole(DATA_ADMINISTRATOR) {
         treasuryAddress = newTreasury_;
     }
+
 }

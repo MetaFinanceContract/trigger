@@ -25,19 +25,19 @@ contract MfiIssueEvents {
     event Withdrawn(address indexed _user, uint256 _amount);
 
     /**
+    * @dev User receive reward event
+    * @param _user User address
+    * @param _reward User receive amount
+    */
+    event RewardPaid(address indexed _user, uint256 _reward);
+
+    /**
     * @dev User harvest event
     * @param _user User address
     * @param _rewardsToken Rewards token address
     * @param _reward User harvest amount
     */
     event UserHarvest(address indexed _user, address _rewardsToken, uint256 _reward);
-
-    /**
-    * @dev User receive reward event
-    * @param _user User address
-    * @param _reward User receive amount
-    */
-    event RewardPaid(address indexed _user, uint256 _reward);
 
 }
 
@@ -378,14 +378,14 @@ abstract contract AccessControl is Context, IAccessControl, ERC165 {
     function _checkRole(bytes32 role, address account) internal view virtual {
         if (!hasRole(role, account)) {
             revert(
-                string(
-                    abi.encodePacked(
-                        "AccessControl: account ",
-                        Strings.toHexString(uint160(account), 20),
-                        " is missing role ",
-                        Strings.toHexString(uint256(role), 32)
-                    )
+            string(
+                abi.encodePacked(
+                    "AccessControl: account ",
+                    Strings.toHexString(uint160(account), 20),
+                    " is missing role ",
+                    Strings.toHexString(uint256(role), 32)
                 )
+            )
             );
         }
     }
@@ -527,7 +527,6 @@ abstract contract MfiAccessControl is AccessControl {
     // meta finance trigger pool address
     bytes32 public constant META_FINANCE_TRIGGER_POOL = bytes32(keccak256(abi.encodePacked("META_FINANCE_TRIGGER_POOL")));
 
-
 }
 
 // File: contracts/interfaces/IMfiIssueInterfaces.sol
@@ -539,35 +538,36 @@ abstract contract MfiAccessControl is AccessControl {
  */
 interface IMetaFinanceClubInfo {
     /**
-    * @dev Query user club address
+    * @notice Query user club address
     * @param userAddress_ User address
     * @return Return to user club address
     */
     function userClub(address userAddress_) external view returns (address);
 
     /**
-    * @dev Query treasury address
+    * @notice Query treasury address
     * @return Return to Treasury Address
     */
     function treasuryAddress() external view returns (address);
 
     /**
-    * @dev Inquiry Club Accuracy
+    * @notice Inquiry Club Accuracy
     * @return Returns the precision in the club contract
     */
     function proportion() external view returns (uint256);
 
     /**
-    * @dev Query the proportion of users in the club
+    * @notice Query the proportion of users in the club
     * @return return scale
     */
     function yesClub() external view returns (uint256);
 
     /**
-    * @dev Query the percentage of users who are not in the club
+    * @notice Query the percentage of users who are not in the club
     * @return return scale
     */
     function noClub() external view returns (uint256);
+
 }
 
 // File: @openzeppelin/contracts/utils/math/Math.sol
@@ -638,11 +638,11 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            uint256 c = a + b;
-            if (c < a) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        uint256 c = a + b;
+        if (c < a) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -651,10 +651,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b > a) return (false, 0);
-            return (true, a - b);
-        }
+    unchecked {
+        if (b > a) return (false, 0);
+        return (true, a - b);
+    }
     }
 
     /**
@@ -663,15 +663,15 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-            // benefit is lost if 'b' is also tested.
-            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-            if (a == 0) return (true, 0);
-            uint256 c = a * b;
-            if (c / a != b) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+        if (a == 0) return (true, 0);
+        uint256 c = a * b;
+        if (c / a != b) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -680,10 +680,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a / b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a / b);
+    }
     }
 
     /**
@@ -692,10 +692,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a % b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a % b);
+    }
     }
 
     /**
@@ -788,10 +788,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b <= a, errorMessage);
-            return a - b;
-        }
+    unchecked {
+        require(b <= a, errorMessage);
+        return a - b;
+    }
     }
 
     /**
@@ -811,10 +811,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a / b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a / b;
+    }
     }
 
     /**
@@ -837,10 +837,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a % b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a % b;
+    }
     }
 }
 
@@ -1224,12 +1224,12 @@ library SafeERC20 {
         address spender,
         uint256 value
     ) internal {
-        unchecked {
-            uint256 oldAllowance = token.allowance(address(this), spender);
-            require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
-            uint256 newAllowance = oldAllowance - value;
-            _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
-        }
+    unchecked {
+        uint256 oldAllowance = token.allowance(address(this), spender);
+        require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
+        uint256 newAllowance = oldAllowance - value;
+        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+    }
     }
 
     /**
@@ -1737,7 +1737,6 @@ contract MfiIssueStorages {
     mapping(address => UserPledge) public userData;
     mapping(address => uint256) public userRewardPerTokenPaid;
 
-
 }
 
 // File: contracts/MetaFinanceIssuePool.sol
@@ -1746,6 +1745,9 @@ contract MfiIssueStorages {
 
 
 
+/**
+* @notice Context, MfiIssueStorages, MfiIssueEvents, MfiAccessControl, ReentrancyGuardUpgradeable
+*/
 contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiAccessControl, ReentrancyGuardUpgradeable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20Metadata;
@@ -1753,8 +1755,7 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     /* ========== CONSTRUCTOR ========== */
 
     function initialize(address _rewardsToken, address metaFinanceClubInfo_) initializer public {
-        lockDays = 30;
-        //180 days;
+        lockDays = 180 days;
         __ReentrancyGuard_init();
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         rewardsToken = IERC20Metadata(_rewardsToken);
@@ -1839,7 +1840,7 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     * @return Returns the reward amount for staked tokens
     */
     function rewardPerToken() public view returns (uint256) {
-        if (_totalSupply == 0) {
+        if (_totalSupply == 0 || block.timestamp < lastUpdateTime) {
             return rewardPerTokenStored;
         }
         return
@@ -1903,6 +1904,14 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     }
 
     /**
+    * @dev Set new club address
+    * @param newClubAddress_ New club address
+    */
+    function setClubAddress(address newClubAddress_) external onlyRole(DATA_ADMINISTRATOR) {
+        metaFinanceClubInfo = IMetaFinanceClubInfo(newClubAddress_);
+    }
+
+    /**
     * @dev Modify production time
     * @param newLockDays_ New lock time
     */
@@ -1912,11 +1921,12 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     /* ========== MODIFIERS ========== */
     modifier updateReward(address account) {
         rewardPerTokenStored = rewardPerToken();
-        lastUpdateTime = block.timestamp;
+        lastUpdateTime = Math.max(block.timestamp, lastUpdateTime);
         if (account != address(0)) {
             rewards[account] = earned(account);
             userRewardPerTokenPaid[account] = rewardPerTokenStored;
         }
         _;
     }
+
 }

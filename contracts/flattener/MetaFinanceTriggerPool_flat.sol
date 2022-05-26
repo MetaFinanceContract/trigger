@@ -485,7 +485,6 @@ abstract contract MfiAccessControl is AccessControl {
     // meta finance trigger pool address
     bytes32 public constant META_FINANCE_TRIGGER_POOL = bytes32(keccak256(abi.encodePacked("META_FINANCE_TRIGGER_POOL")));
 
-
 }
 
 // File: contracts/events/MfiTriggerEvents.sol
@@ -493,38 +492,57 @@ abstract contract MfiAccessControl is AccessControl {
 
 
 contract MfiTriggerEvents {
-    /*
-     * @dev User pledge event
-     * @param _userAddress User address
-     * @param _tokenAddress Token address
-     * @param _pledgeAmount User pledge amount
-     * @param _timestamp pledge time
-     */
-    event UserPledgeCake(address indexed _userAddress, address _tokenAddress, uint256 _pledgeAmount, uint256 _timestamp);
+    /**
+    * @dev User pledge event
+    * @param _user User address
+    * @param _tokenAddress Token address
+    * @param _pledgeAmount User pledge amount
+    * @param _blockTimestamp pledge time
+    */
+    event UserPledgeCake(
+        address indexed _user,
+        address _tokenAddress,
+        uint256 _pledgeAmount,
+        uint256 _blockTimestamp
+    );
 
-    /*
-     * @dev User withdrawal event
-     * @param _userAddress User address
-     * @param _tokenAddress Token address
-     * @param _withdrawAmount User withdrawal amount
-     * @param _interestTokenAddress Interest token address
-     * @param _interestAmount User interest amount
-     * @param _timestamp pledge time
-     */
-    event UserWithdrawCake(address indexed _userAddress, address _tokenAddress, uint256 _withdrawAmount, address _interestTokenAddress, uint256 _interestAmount, uint256 _timestamp);
+    /**
+    * @dev User withdrawal event
+    * @param _user User address
+    * @param _tokenAddress Token address
+    * @param _withdrawAmount User withdrawal amount
+    * @param _interestTokenAddress Interest token address
+    * @param _interestAmount User interest amount
+    * @param _blockTimestamp pledge time
+    */
+    event UserWithdrawCake(
+        address indexed _user,
+        address _tokenAddress,
+        uint256 _withdrawAmount,
+        address _interestTokenAddress,
+        uint256 _interestAmount,
+        uint256 _blockTimestamp
+    );
 
-    /*
-     * @dev User pick up event
-     * @param _userAddress User address
-     * @param _tokenAddress Token address
-     * @param _withdrawAmount User withdrawal amount
-     * @param _timestamp pledge time
-     */
-    event UserReceiveCake(address indexed _userAddress, address _tokenAddress, uint256 _receiveAmount, uint256 _timestamp);
+    /**
+    * @dev User pick up event
+    * @param _user User address
+    * @param _tokenAddress Token address
+    * @param _receiveAmount User withdrawal amount
+    * @param _blockTimestamp pledge time
+    */
+    event UserReceiveCake(
+        address indexed _user,
+        address _tokenAddress,
+        uint256 _receiveAmount,
+        uint256 _blockTimestamp
+    );
 
 }
 
 // File: contracts/interfaces/IMfiTriggerInterfaces.sol
+
+
 
 /**
  * @title PancakeRouter02 contract interface
@@ -537,21 +555,16 @@ interface IPancakeRouter02 {
         address to,
         uint256 deadline
     ) external;
+
 }
 
 /**
  * @title MetaFinanceClubInfo contract interface
  */
 interface IMetaFinanceClubInfo {
-    /**
-    * @dev User binding club
-    * @param userAddress_ User address
-    * @param clubAddress_ Club address
-    */
-    function boundClub(address userAddress_, address clubAddress_) external;
 
     /**
-    * @dev Calculate the number of club rewards
+    * @notice Calculate the number of club rewards
     * @param clubAddress_ Club address
     * @param tokenAddress_ Club token address
     * @param amount_ Number of operations
@@ -560,23 +573,31 @@ interface IMetaFinanceClubInfo {
     function calculateReward(address clubAddress_, address tokenAddress_, uint256 amount_, bool addOrSub_) external;
 
     /**
-    * @dev Query user club address
+    * @notice User binding club
+    * @param userAddress_ User address
+    * @param clubAddress_ Club address
+    */
+    function boundClub(address userAddress_, address clubAddress_) external;
+
+    /**
+    * @notice Query user club address
     * @param userAddress_ User address
     * @return Return to club address
     */
     function userClub(address userAddress_) external view returns (address);
 
     /**
-    * @dev Get Club Rewards
+    * @notice Query treasury address
+    * @return Return to Treasury Address
+    */
+    function treasuryAddress() external view returns (address);
+
+    /**
+    * @notice Get Club Rewards
     * @return Back to Club Reward Scale
     */
     function clubIncentive() external view returns (uint256);
 
-    /**
-    * @dev Query treasury address
-    * @return Return to Treasury Address
-    */
-    function treasuryAddress() external view returns (address);
 }
 
 /**
@@ -596,6 +617,7 @@ interface IMetaFinanceIssuePool {
      * @param amount_ The number of users released
      */
     function withdraw(address userAddress_, uint256 amount_) external;
+
 }
 
 /**
@@ -636,8 +658,8 @@ interface ISmartChefInitializable {
      * @notice Get reward tokens
      */
     function rewardToken() external view returns (address);
-}
 
+}
 
 // File: @openzeppelin/contracts/utils/math/Math.sol
 
@@ -1060,7 +1082,7 @@ library Address {
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
-        (bool success,) = recipient.call{value : amount}("");
+        (bool success, ) = recipient.call{value: amount}("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -1134,7 +1156,7 @@ library Address {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
-        (bool success, bytes memory returndata) = target.call{value : value}(data);
+        (bool success, bytes memory returndata) = target.call{value: value}(data);
         return verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -1411,7 +1433,7 @@ library AddressUpgradeable {
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
-        (bool success,) = recipient.call{value : amount}("");
+        (bool success, ) = recipient.call{value: amount}("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -1485,7 +1507,7 @@ library AddressUpgradeable {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
-        (bool success, bytes memory returndata) = target.call{value : value}(data);
+        (bool success, bytes memory returndata) = target.call{value: value}(data);
         return verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -1806,7 +1828,7 @@ contract MfiTriggerStorages {
 
 }
 
-// File: contracts/MetaFinanceTriggerPoolTwo.sol
+// File: contracts/MetaFinanceTriggerPool.sol
 
 
 
@@ -2185,7 +2207,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     }
 
     function tokenFromReflection(uint256 rAmount) private view returns (uint256) {
-        require(rAmount <= _rTotal, "MFTP:E6");
+        require(rAmount <= _rTotal, "MFTP:E7");
         uint256 currentRate = _getRate();
         return rAmount.div(currentRate);
     }
@@ -2270,4 +2292,5 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     }
 
     receive() external payable {}
+
 }

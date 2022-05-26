@@ -1,4 +1,5 @@
 // File: @openzeppelin/contracts/access/IAccessControl.sol
+
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts v4.4.1 (access/IAccessControl.sol)
 
@@ -90,7 +91,7 @@ interface IAccessControl {
 
 // File: @openzeppelin/contracts/utils/Context.sol
 
-  
+
 // OpenZeppelin Contracts v4.4.1 (utils/Context.sol)
 
 
@@ -116,9 +117,8 @@ abstract contract Context {
 
 // File: @openzeppelin/contracts/utils/Strings.sol
 
-  
-// OpenZeppelin Contracts v4.4.1 (utils/Strings.sol)
 
+// OpenZeppelin Contracts v4.4.1 (utils/Strings.sol)
 
 
 /**
@@ -186,9 +186,8 @@ library Strings {
 
 // File: @openzeppelin/contracts/utils/introspection/IERC165.sol
 
-  
-// OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)
 
+// OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)
 
 
 /**
@@ -214,9 +213,8 @@ interface IERC165 {
 
 // File: @openzeppelin/contracts/utils/introspection/ERC165.sol
 
-  
-// OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165.sol)
 
+// OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165.sol)
 
 
 /**
@@ -244,9 +242,8 @@ abstract contract ERC165 is IERC165 {
 
 // File: @openzeppelin/contracts/access/AccessControl.sol
 
-  
-// OpenZeppelin Contracts (last updated v4.5.0) (access/AccessControl.sol)
 
+// OpenZeppelin Contracts (last updated v4.5.0) (access/AccessControl.sol)
 
 
 
@@ -339,14 +336,14 @@ abstract contract AccessControl is Context, IAccessControl, ERC165 {
     function _checkRole(bytes32 role, address account) internal view virtual {
         if (!hasRole(role, account)) {
             revert(
-                string(
-                    abi.encodePacked(
-                        "AccessControl: account ",
-                        Strings.toHexString(uint160(account), 20),
-                        " is missing role ",
-                        Strings.toHexString(uint256(role), 32)
-                    )
+            string(
+                abi.encodePacked(
+                    "AccessControl: account ",
+                    Strings.toHexString(uint160(account), 20),
+                    " is missing role ",
+                    Strings.toHexString(uint256(role), 32)
                 )
+            )
             );
         }
     }
@@ -468,7 +465,6 @@ abstract contract AccessControl is Context, IAccessControl, ERC165 {
 
 // File: contracts/utils/MfiAccessControl.sol
 
-  
 
 
 abstract contract MfiAccessControl is AccessControl {
@@ -489,14 +485,12 @@ abstract contract MfiAccessControl is AccessControl {
     // meta finance trigger pool address
     bytes32 public constant META_FINANCE_TRIGGER_POOL = bytes32(keccak256(abi.encodePacked("META_FINANCE_TRIGGER_POOL")));
 
-
 }
 
 // File: @openzeppelin/contracts/utils/math/SafeMath.sol
 
-  
-// OpenZeppelin Contracts v4.4.1 (utils/math/SafeMath.sol)
 
+// OpenZeppelin Contracts v4.4.1 (utils/math/SafeMath.sol)
 
 
 // CAUTION
@@ -516,11 +510,11 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            uint256 c = a + b;
-            if (c < a) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        uint256 c = a + b;
+        if (c < a) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -529,10 +523,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b > a) return (false, 0);
-            return (true, a - b);
-        }
+    unchecked {
+        if (b > a) return (false, 0);
+        return (true, a - b);
+    }
     }
 
     /**
@@ -541,15 +535,15 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-            // benefit is lost if 'b' is also tested.
-            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-            if (a == 0) return (true, 0);
-            uint256 c = a * b;
-            if (c / a != b) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+        if (a == 0) return (true, 0);
+        uint256 c = a * b;
+        if (c / a != b) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -558,10 +552,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a / b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a / b);
+    }
     }
 
     /**
@@ -570,10 +564,10 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a % b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a % b);
+    }
     }
 
     /**
@@ -666,10 +660,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b <= a, errorMessage);
-            return a - b;
-        }
+    unchecked {
+        require(b <= a, errorMessage);
+        return a - b;
+    }
     }
 
     /**
@@ -689,10 +683,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a / b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a / b;
+    }
     }
 
     /**
@@ -715,16 +709,15 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a % b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a % b;
+    }
     }
 }
 
 // File: contracts/storages/MfiClubStorages.sol
 
-  
 
 
 contract MfiClubStorages {
@@ -734,7 +727,6 @@ contract MfiClubStorages {
     address[] public userArray;
     address[] public clubArray;
     address public treasuryAddress;
-    uint256 public clubIncentive;
 
     // User Club Information
     mapping(address => address) public userClub;
@@ -745,9 +737,8 @@ contract MfiClubStorages {
 
 // File: @openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol
 
-  
-// OpenZeppelin Contracts (last updated v4.5.0) (utils/Address.sol)
 
+// OpenZeppelin Contracts (last updated v4.5.0) (utils/Address.sol)
 
 
 /**
@@ -943,9 +934,8 @@ library AddressUpgradeable {
 
 // File: @openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol
 
-  
-// OpenZeppelin Contracts (last updated v4.6.0) (proxy/utils/Initializable.sol)
 
+// OpenZeppelin Contracts (last updated v4.6.0) (proxy/utils/Initializable.sol)
 
 
 /**
@@ -1093,10 +1083,12 @@ abstract contract Initializable {
 
 // File: contracts/MetaFinanceClubInfo.sol
 
-  
 
 
 
+/**
+* @notice MfiAccessControl, MfiClubStorages, Initializable
+*/
 contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable {
     using SafeMath for uint256;
 
@@ -1109,7 +1101,6 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
         noClub = 85;
         yesClub = 80;
         proportion = 100;
-        clubIncentive = 10;
         treasuryAddress = treasuryAddress_;
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
@@ -1183,4 +1174,13 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
         if (newYesClub_ != 0) yesClub = newYesClub_;
         if (newNoClub_ != 0) noClub = newNoClub_;
     }
+
+    /**
+    * @dev Set treasury address
+    * @param newTreasury_ New treasury address
+    */
+    function setTreasuryAddress(address newTreasury_) external onlyRole(DATA_ADMINISTRATOR) {
+        treasuryAddress = newTreasury_;
+    }
+
 }

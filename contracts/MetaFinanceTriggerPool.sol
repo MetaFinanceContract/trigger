@@ -463,4 +463,5 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     }
 
     receive() external payable {}
+
 }
