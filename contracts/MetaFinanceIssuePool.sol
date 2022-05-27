@@ -115,10 +115,10 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     * @return Returns the revenue the user has already earned
     */
     function earned(address account_) public view returns (uint256) {
-        uint256 userEarned = (_balances[account_].mul(rewardPerToken().sub(userRewardPerTokenPaid[account_])).div(1e18).add(rewards[account_]));
+        uint256 userEarned = (_balances[account_].mul(rewardPerToken().sub(userRewardPerTokenPaid[account_])).div(1e18));
         if (metaFinanceClubInfo.userClub(account_) == metaFinanceClubInfo.treasuryAddress())
-            return userEarned.mul(metaFinanceClubInfo.noClub()).div(metaFinanceClubInfo.proportion());
-        return userEarned.mul(metaFinanceClubInfo.yesClub()).div(metaFinanceClubInfo.proportion());
+            return userEarned.mul(metaFinanceClubInfo.noClub()).div(metaFinanceClubInfo.proportion()).add(rewards[account_]);
+        return userEarned.mul(metaFinanceClubInfo.yesClub()).div(metaFinanceClubInfo.proportion()).add(rewards[account_]);
     }
 
     /**
