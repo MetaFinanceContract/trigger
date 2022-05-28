@@ -21,6 +21,7 @@ contract MetaFinanceMerkleDistributorFactory is MfiAccessControl, MfiMerkleEvent
     */
     function initialize(
     ) public initializer {
+        locking = true;
         lockDays = 180 days;
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
@@ -59,6 +60,15 @@ contract MetaFinanceMerkleDistributorFactory is MfiAccessControl, MfiMerkleEvent
     }
 
     /**
+    * @dev Pause or resume pickup
+    * @param locking_ Pause or resume
+    */
+    function pauseUser(bool locking_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
+        if (locking != locking_)
+            locking = locking_;
+    }
+
+    /**
     * @notice The user receives the reward of the item corresponding to the id
     * @dev Call the claim method of MerkleDistributor
     * @param index_ Id corresponds to the user index of the payment pool
@@ -70,6 +80,7 @@ contract MetaFinanceMerkleDistributorFactory is MfiAccessControl, MfiMerkleEvent
         uint256 amount_,
         bytes32[] calldata merkleProof_
     ) external nonReentrant {
+        require(locking, "MFMDF:E0");
         IMfiMerkleDistributor(merkleDistributorIds[_merkleDistributorIds.current()]).claim(
             index_,
             _msgSender(),
@@ -100,7 +111,7 @@ contract MetaFinanceMerkleDistributorFactory is MfiAccessControl, MfiMerkleEvent
         block.timestamp >= userData[_msgSender()].enderTime ?
         userData[_msgSender()].pledgeTotal = 0 :
         userData[_msgSender()].pledgeTotal = (userData[_msgSender()].pledgeTotal.add(generateQuantity)).sub(reward);
-        
+
         IERC20Metadata(merkleDistributorToken[_merkleDistributorIds.current()]).safeTransfer(_msgSender(), reward);
 
         emit GetReward(_msgSender(), reward, block.timestamp);

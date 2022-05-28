@@ -18,8 +18,8 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
     /* ========== CONSTRUCTOR ========== */
 
     function initialize(address treasuryAddress_) initializer public {
-        noClub = 85;
-        yesClub = 80;
+        noClub = 80;
+        yesClub = 85;
         proportion = 100;
         treasuryAddress = treasuryAddress_;
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());

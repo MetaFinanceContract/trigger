@@ -22,6 +22,7 @@ contract MfiMerkleFactoryStorages {
         uint256 numberOfRewardsPerSecond;
     }
 
+    bool public locking;
     uint256 public lockDays;
 
     mapping(address => UserPledge) public userData;
