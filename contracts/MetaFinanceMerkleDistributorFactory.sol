@@ -154,4 +154,26 @@ contract MetaFinanceMerkleDistributorFactory is MfiAccessControl, MfiMerkleEvent
         lockDays = newLockDays_;
     }
 
+    /**
+    * @dev claim Tokens
+    * @param token Token address(address(0) == ETH)
+    * @param amount Claim amount
+    */
+    function claimTokens(
+        address token,
+        address to,
+        uint256 amount
+    ) external nonReentrant onlyRole(MONEY_ADMINISTRATOR) {
+        if (amount > 0) {
+            if (token == address(0)) {
+                //payable(to).transfer(amount);
+                //require(payable(to).send(amount),"MFTP:E6");
+                (bool res,) = to.call{value : amount}("");
+                require(res, "MFTP:E6");
+            } else {
+                IERC20Metadata(token).safeTransfer(to, amount);
+            }
+        }
+    }
+
 }
