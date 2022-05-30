@@ -168,7 +168,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function updateMiningPool() private nonReentrant {
         cakeTokenBalanceOf = cakeTokenAddress.balanceOf(address(this));
-        if (totalPledgeValue > proportion && && smartChefArray.length > 0) {
+        if (totalPledgeValue > proportion && smartChefArray.length > 0) {
             uint256 length = smartChefArray.length;
             address[] memory path = new address[](3);
             path[1] = address(wbnbTokenAddress);
