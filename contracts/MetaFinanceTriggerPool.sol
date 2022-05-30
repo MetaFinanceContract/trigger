@@ -303,11 +303,6 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function uploadMiningPool(uint256[] calldata storageProportion_, ISmartChefInitializable[] calldata smartChefArray_) external beforeStaking nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
         require(storageProportion_.length == smartChefArray_.length, "MFTP:E4");
-        uint256 sum = 0;
-        for (uint256 i; i < storageProportion_.length; ++i) {
-            sum += storageProportion_[i];
-        }
-        require(sum == 100, "MFTP:E9");
         smartChefArray = smartChefArray_;
         uint256 length = smartChefArray.length;
         for (uint256 i = 0; i < length; ++i) {
