@@ -278,7 +278,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @param newTreasuryRatio_ New treasury fee ratio
     */
     function setFeeRatio(uint256 newTreasuryRatio_) external beforeStaking nonReentrant onlyRole(DATA_ADMINISTRATOR) {
-        require(newTreasuryRatio_ <= proportion,"MFTP:E8");
+        require(newTreasuryRatio_ <= proportion, "MFTP:E8");
         if (newTreasuryRatio_ != 0) treasuryRatio = newTreasuryRatio_;
     }
 
@@ -307,7 +307,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
         for (uint256 i; i < storageProportion_.length; ++i) {
             sum += storageProportion_[i];
         }
-        if (sum != 100) return;
+        require(sum == 100, "MFTP:E9");
         smartChefArray = smartChefArray_;
         uint256 length = smartChefArray.length;
         for (uint256 i = 0; i < length; ++i) {
