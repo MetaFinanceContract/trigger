@@ -278,17 +278,8 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @param newTreasuryRatio_ New treasury fee ratio
     */
     function setFeeRatio(uint256 newTreasuryRatio_) external beforeStaking nonReentrant onlyRole(DATA_ADMINISTRATOR) {
+        require(newTreasuryRatio_ <= proportion, "MFTP:E8");
         if (newTreasuryRatio_ != 0) treasuryRatio = newTreasuryRatio_;
-    }
-
-    /**
-    * @dev Set new external contract address
-    * @param newMetaFinanceClubInfo_ New MetaFinanceClubInfo contract address
-    * @param newMetaFinanceIssuePoolAddress_ New MetaFinanceIssuePoolAddress_ contract address
-    */
-    function setExternalContract(address newMetaFinanceClubInfo_, address newMetaFinanceIssuePoolAddress_) external nonReentrant onlyRole(DATA_ADMINISTRATOR) {
-        metaFinanceClubInfo = IMetaFinanceClubInfo(newMetaFinanceClubInfo_);
-        metaFinanceIssuePoolAddress = IMetaFinanceIssuePool(newMetaFinanceIssuePoolAddress_);
     }
 
     /**
