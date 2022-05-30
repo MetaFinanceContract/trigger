@@ -26,7 +26,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     /* ========== CONSTRUCTOR ========== */
 
     function initialize(address metaFinanceClubInfo_, address metaFinanceIssuePoolAddress_) initializer public {
-
+        urgent = false;
         _taxFee = 100;
         proportion = 100;
         treasuryRatio = 50;
@@ -66,6 +66,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @param amount_ User pledge amount
     */
     function userDeposit(uint256 amount_) external beforeStaking nonReentrant {
+        require(!urgent, "MFTP:E10");
         require(metaFinanceClubInfo.userClub(_msgSender()) != address(0), "MFTP:E0");
         require(smartChefArray.length > 0, "MFTP:E5");
         require(amount_ >= 10 ** 18, "MFTP:E1");
@@ -86,6 +87,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @param amount_ User withdraw amount
     */
     function userWithdraw(uint256 amount_) external beforeStaking nonReentrant {
+        require(!urgent, "MFTP:E10");
         uint256 userPledgeAmount_ = userPledgeAmount[_msgSender()];
         require(amount_ >= 10 ** 18 && amount_ <= userPledgeAmount_, "MFTP:E2");
 
@@ -109,6 +111,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @dev User gets reward cake
     */
     function userGetReward() external beforeStaking nonReentrant {
+        require(!urgent, "MFTP:E10");
         uint256 numberOfAwards = rewardBalanceOf(_msgSender()).sub(userPledgeAmount[_msgSender()]);
         require(numberOfAwards > 0, "MFTP:E3");
 
@@ -286,14 +289,31 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @dev Withdraw staked tokens without caring about rewards rewards
     * @notice Use cautiously and exit with guaranteed principal!!!
     * @param smartChef_ Pool address
+    * @param urgent_ Locked state
     * @dev Needs to be for emergency.
     */
-    function projectPartyEmergencyWithdraw(ISmartChefInitializable smartChef_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
+    function projectPartyEmergencyWithdraw(ISmartChefInitializable smartChef_, bool urgent_) external nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
         if (totalPledgeAmount != 0) {
             smartChef_.emergencyWithdraw();
             totalPledgeValue = totalPledgeValue.sub(storageQuantity[smartChef_]);
             storageQuantity[smartChef_] = 0;
+            if (urgent_)
+                urgent = urgent_;
         }
+    }
+
+    /**
+    * @dev User emergency withdrawal
+    */
+    function userUrgent() external nonReentrant {
+        require(urgent, "MFTP:E10");
+        require(userPledgeAmount[_msgSender()] > 0, "MFTP:E9");
+        uint256 oldUserAmount = userPledgeAmount[_msgSender()];
+        userPledgeAmount[_msgSender()] = userPledgeAmount[_msgSender()].sub(oldUserAmount);
+
+        cakeTokenAddress.safeTransfer(_msgSender(), oldUserAmount);
+        metaFinanceClubInfo.calculateReward(metaFinanceClubInfo.userClub(_msgSender()), address(cakeTokenAddress), oldUserAmount, false);
+
     }
 
     /**
