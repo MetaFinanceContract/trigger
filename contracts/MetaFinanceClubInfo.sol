@@ -37,7 +37,12 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
     * @param clubAddress_ Club address
     */
     function boundClub(address userAddress_, address clubAddress_) external onlyRole(META_FINANCE_TRIGGER_POOL) {
-        require(userClub[userAddress_] == address(0) && clubAddress_ != userAddress_ && treasuryAddress != address(0), "MFCI:E1");
+        require(
+            userClub[userAddress_] == address(0) &&
+            clubAddress_ != userAddress_ &&
+            treasuryAddress != address(0) &&
+            clubAddress_ != address(0),
+            "MFCI:E1");
         userClub[userAddress_] = clubAddress_;
         userArray.push(userAddress_);
         if (clubAddress_ != treasuryAddress)
@@ -91,6 +96,7 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
     * @param newNoClub_ New no Club
     */
     function setClubProportion(uint256 newYesClub_, uint256 newNoClub_) external onlyRole(DATA_ADMINISTRATOR) {
+        require(newYesClub_ <= proportion && newNoClub_ <= proportion, "MFCI:E0");
         if (newYesClub_ != 0) yesClub = newYesClub_;
         if (newNoClub_ != 0) noClub = newNoClub_;
     }

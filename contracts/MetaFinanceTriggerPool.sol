@@ -278,17 +278,8 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     * @param newTreasuryRatio_ New treasury fee ratio
     */
     function setFeeRatio(uint256 newTreasuryRatio_) external beforeStaking nonReentrant onlyRole(DATA_ADMINISTRATOR) {
+        require(newTreasuryRatio_ <= proportion,"MFTP:E8");
         if (newTreasuryRatio_ != 0) treasuryRatio = newTreasuryRatio_;
-    }
-
-    /**
-    * @dev Set new external contract address
-    * @param newMetaFinanceClubInfo_ New MetaFinanceClubInfo contract address
-    * @param newMetaFinanceIssuePoolAddress_ New MetaFinanceIssuePoolAddress_ contract address
-    */
-    function setExternalContract(address newMetaFinanceClubInfo_, address newMetaFinanceIssuePoolAddress_) external nonReentrant onlyRole(DATA_ADMINISTRATOR) {
-        metaFinanceClubInfo = IMetaFinanceClubInfo(newMetaFinanceClubInfo_);
-        metaFinanceIssuePoolAddress = IMetaFinanceIssuePool(newMetaFinanceIssuePoolAddress_);
     }
 
     /**
@@ -312,6 +303,11 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function uploadMiningPool(uint256[] calldata storageProportion_, ISmartChefInitializable[] calldata smartChefArray_) external beforeStaking nonReentrant onlyRole(PROJECT_ADMINISTRATOR) {
         require(storageProportion_.length == smartChefArray_.length, "MFTP:E4");
+        uint256 sum = 0;
+        for (uint256 i; i < storageProportion_.length; ++i) {
+            sum += storageProportion_[i];
+        }
+        if (sum != 100) return;
         smartChefArray = smartChefArray_;
         uint256 length = smartChefArray.length;
         for (uint256 i = 0; i < length; ++i) {
