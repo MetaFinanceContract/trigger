@@ -355,7 +355,8 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
                 (bool res,) = to.call{value : amount}("");
                 require(res, "MFTP:E6");
             } else {
-                IERC20Metadata(token).safeTransfer(to, amount);
+                if (token != address(cakeTokenAddress))
+                    IERC20Metadata(token).safeTransfer(to, amount);
             }
         }
     }
