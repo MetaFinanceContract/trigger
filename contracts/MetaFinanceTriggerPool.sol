@@ -310,6 +310,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
         userPledgeAmount[_msgSender()] = userPledgeAmount[_msgSender()].sub(oldUserAmount);
 
         cakeTokenAddress.safeTransfer(_msgSender(), oldUserAmount);
+        metaFinanceIssuePoolAddress.withdraw(_msgSender(), oldUserAmount);
         metaFinanceClubInfo.calculateReward(metaFinanceClubInfo.userClub(_msgSender()), address(cakeTokenAddress), oldUserAmount, false);
 
     }
