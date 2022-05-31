@@ -75,14 +75,12 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
         if (newProportion_ == 100 || newProportion_ == 1000 || newProportion_ == 10000 || newProportion_ == 100000) {
             if (newProportion_ > proportion) {
                 uint256 difference = newProportion_.div(proportion);
-                difference = difference != 0 ? difference : 1;
                 proportion = proportion.mul(difference);
                 yesClub = yesClub.mul(difference);
                 noClub = noClub.mul(difference);
             }
             if (proportion > newProportion_) {
                 uint256 difference = proportion.div(newProportion_);
-                difference = difference != 0 ? difference : 1;
                 proportion = proportion.div(difference);
                 yesClub = yesClub.div(difference);
                 noClub = noClub.div(difference);
@@ -107,6 +105,14 @@ contract MetaFinanceClubInfo is MfiAccessControl, MfiClubStorages, Initializable
     */
     function setTreasuryAddress(address newTreasury_) external onlyRole(DATA_ADMINISTRATOR) {
         treasuryAddress = newTreasury_;
+    }
+
+    /**
+    * @dev Check the number of users and clubs
+    * @return Number of users and number of clubs
+    */
+    function getArrayLength() external view returns (uint256, uint256){
+        return (userArray.length, clubArray.length);
     }
 
 }

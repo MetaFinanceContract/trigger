@@ -255,7 +255,6 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
         if (newProportion_ == 100 || newProportion_ == 1000 || newProportion_ == 10000 || newProportion_ == 100000) {
             if (newProportion_ > proportion) {
                 uint256 difference = newProportion_.div(proportion);
-                difference = difference != 0 ? difference : 1;
                 proportion = proportion.mul(difference);
                 treasuryRatio = treasuryRatio.mul(difference);
                 uint256 length = smartChefArray.length;
@@ -265,7 +264,6 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
             }
             if (proportion > newProportion_) {
                 uint256 difference = proportion.div(newProportion_);
-                difference = difference != 0 ? difference : 1;
                 proportion = proportion.div(difference);
                 treasuryRatio = treasuryRatio.div(difference);
                 uint256 length = smartChefArray.length;
@@ -473,7 +471,5 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _rTotal = _rTotal.sub(rFee);
     }
-
-    receive() external payable {}
 
 }

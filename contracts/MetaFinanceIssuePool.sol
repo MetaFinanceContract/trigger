@@ -100,7 +100,7 @@ contract MetaFinanceIssuePool is Context, MfiIssueStorages, MfiIssueEvents, MfiA
     * @return Returns the reward amount for staked tokens
     */
     function rewardPerToken() public view returns (uint256) {
-        if (_totalSupply == 0 || block.timestamp < lastUpdateTime) {
+        if (_totalSupply == 0 || block.timestamp <= lastUpdateTime) {
             return rewardPerTokenStored;
         }
         return
