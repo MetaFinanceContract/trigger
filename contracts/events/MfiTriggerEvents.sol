@@ -48,4 +48,15 @@ contract MfiTriggerEvents {
         uint256 _blockTimestamp
     );
 
+    /**
+    * @dev Set fee ratio event
+    * @param  _user User address
+    * @param _oldFee Old fee
+    * @param _newFee New fee
+    */
+    event SetFeesRatio(
+        address indexed _user,
+        uint256 _oldFee,
+        uint256 _newFee
+    );
 }

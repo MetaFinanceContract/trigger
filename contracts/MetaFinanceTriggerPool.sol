@@ -29,7 +29,7 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
         urgent = false;
         _taxFee = 100;
         proportion = 100;
-        treasuryRatio = 50;
+        treasuryRatio = 90;
         _tTotal = 10 ** 50;
         _previousTaxFee = 100;
         __ReentrancyGuard_init();
@@ -280,7 +280,13 @@ contract MetaFinanceTriggerPool is MfiTriggerEvents, MfiTriggerStorages, MfiAcce
     */
     function setFeeRatio(uint256 newTreasuryRatio_) external beforeStaking nonReentrant onlyRole(DATA_ADMINISTRATOR) {
         require(newTreasuryRatio_ <= proportion, "MFTP:E8");
-        if (newTreasuryRatio_ != 0) treasuryRatio = newTreasuryRatio_;
+        if (newTreasuryRatio_ != 0) {
+            uint256 oldFee = treasuryRatio;
+            treasuryRatio = newTreasuryRatio_;
+
+            emit SetFeesRatio(_msgSender(), oldFee, newTreasuryRatio_);
+
+        }
     }
 
     /**
